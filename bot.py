@@ -26,4 +26,8 @@ def main(api_key):
     updater.idle()
 
 if __name__ == '__main__':
-    main(os.environ["tg_api_key"])
+    print("Running bot...")
+    api_key = os.environ["tg_api_key"]
+    if api_key:
+        print("ApiKey detected")
+    main(api_key)
