@@ -1,33 +1,40 @@
 import logging
 import os
+import sqlite3
+
+from PressureHandler import PressureHandler
+from PressureReportHandler import PressureReportHandler
 
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, MessageFilter
-
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-class PressureFilter(MessageFilter):
-    def filter(self, message):
-        return 'давление' in message.text.lower()
-
-def pressure_handler(update: Update, context: CallbackContext) -> None:
-    logger.info("Received:" + update.message.text)
-    update.message.reply_text(update.message.text)
-
+        
 def main(api_key):
+    db_connection = sqlite3.connect("assistant.db", check_same_thread=False)
+
+    with open('create_tables.sql', 'r') as content_file:
+        init_script_lines =  content_file.readlines()
+        for line in init_script_lines:
+            db_connection.execute(line)
+
     updater = Updater(api_key, use_context=True)
 
     dispatcher = updater.dispatcher    
-    pressure_filter = PressureFilter()
-    dispatcher.add_handler(MessageHandler(pressure_filter, pressure_handler))
+
+    pressure_handler = PressureHandler(db_connection, logger)
+    dispatcher.add_handler(MessageHandler(pressure_handler.get_filter(), pressure_handler.handle))
+
+    pressure_report_handler = PressureReportHandler(db_connection, logger)
+    dispatcher.add_handler(MessageHandler(pressure_report_handler.get_filter(), pressure_report_handler.handle))
 
     updater.start_polling()
     updater.idle()
 
-if __name__ == '__main__':
-    print("Running bot...")
-    api_key = os.environ["tg_api_key"]
-    if api_key:
-        print("ApiKey detected")
-    main(api_key)
+    db_connection.close()
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logger = logging.getLogger("Assistant bot")
+
+items_list = []
+
+api_key = os.environ["tg_api_key"]
+main(api_key)

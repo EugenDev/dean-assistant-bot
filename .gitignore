@@ -139,3 +139,6 @@ cython_debug/
 
 # Env variables
 .env
+
+#slite3 database files
+*.db
