@@ -19,7 +19,7 @@ class PressureHandler:
         splited_string = update.message.text.split()
         (systolic, diastolic, pulse) = splited_string[1:]
         cursor = self.db_connection.cursor()
-        cursor.execute(f"INSERT INTO pressure_measures VALUES ({datetime.utcnow().timestamp()}, {systolic}, {diastolic}, {pulse})")
+        cursor.execute("INSERT INTO pressure_measures VALUES (%s, %s, %s, %s)", (datetime.utcnow(), systolic, diastolic, pulse))
         self.db_connection.commit()
         update.message.reply_text(f"Добавлена запись в журнал давления: {systolic}, {diastolic}, {pulse}")
         self.logger.info(f"Pressure handler executed: {systolic}, {diastolic}, {pulse}")
