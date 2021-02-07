@@ -1,2 +1,1 @@
-CREATE TABLE IF NOT EXISTS pressure_measures (timestamp REAL, systolic INTEGER, diastolic INTEGER, pulse INTEGER);
-
+CREATE TABLE IF NOT EXISTS pressure_measures (timestamp REAL NOT NULL, systolic INT NOT NULL, diastolic INT NOT NULL, pulse INT NOT NULL);

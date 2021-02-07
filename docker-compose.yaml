@@ -1,0 +1,24 @@
+version: '2'
+services:
+  postgres-local:
+    image: "postgres:13.1"
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+      PGDATA: /tmp
+    volumes:
+      - D:/Docker/Postgres:/var/lib/postgresql/data:delegated
+  pgadmin:
+    image: dpage/pgadmin4:4.30
+    environment: 
+      PGADMIN_DEFAULT_EMAIL: dean@home.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_LISTER_PORT: 80
+    ports:
+      - 15432:80
+    volumes:
+      - D:/Docker/PGAdmin:/var/lib/pgadmin
+    depends_on: 
+      - postgres-local
