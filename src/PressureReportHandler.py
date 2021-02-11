@@ -36,8 +36,7 @@ class PressureReportHandler:
         writer.writerow(["timestamp", "systolic", "diastolic", "pulse"])
         for row in rows:
             (timestamp, systolic, diastolic, pulse) = row
-            date = datetime.fromtimestamp(timestamp).isoformat(timespec="seconds")
-            writer.writerow([date, systolic, diastolic, pulse])
+            writer.writerow([timestamp, systolic, diastolic, pulse])
         f.seek(0)
 
         context.bot.send_document(chat_id=update.effective_chat.id, document=f, filename="давление.csv")

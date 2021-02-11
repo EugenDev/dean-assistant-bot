@@ -1,1 +1,1 @@
-CREATE TABLE IF NOT EXISTS pressure_measures (ts timestamp NOT NULL, systolic INT NOT NULL, diastolic INT NOT NULL, pulse INT NOT NULL);
+CREATE TABLE IF NOT EXISTS pressure_measures (ts TIMESTAMP NOT NULL, systolic INTEGER NOT NULL, diastolic INTEGER NOT NULL, pulse INTEGER NOT NULL);

@@ -1,1 +1,0 @@
-bot: python src/bot.py --log-level=debug

@@ -142,3 +142,5 @@ cython_debug/
 
 #slite3 database files
 *.db
+
+.vscode
