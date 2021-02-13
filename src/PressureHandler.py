@@ -10,6 +10,7 @@ class PressureHandler:
     def __init__ (self, db_connection, logger):
         self.db_connection = db_connection
         self.logger = logger
+        db_connection.execute("CREATE TABLE IF NOT EXISTS pressure_measures (ts TIMESTAMP NOT NULL, systolic INTEGER NOT NULL, diastolic INTEGER NOT NULL, pulse INTEGER NOT NULL)")
     
     def get_filter(self):
         return PressureFilter()
