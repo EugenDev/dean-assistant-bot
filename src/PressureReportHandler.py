@@ -29,7 +29,7 @@ class PressureReportHandler:
     def handle(self, update: Update, context: CallbackContext) -> None:
         self.logger.info("Executing pressure report handler ...")
         cursor = self.db_connection.cursor()
-        cursor.execute("SELECT * FROM pressure_measures")
+        cursor.execute("SELECT ts, systolic, diastolic, pulse FROM pressure_measures WHERE user_id=" + str(update.message.from_user.id))
         rows = cursor.fetchall()
 
         f = StringIO()
