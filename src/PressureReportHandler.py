@@ -15,7 +15,8 @@ class PressureMeasureRecord:
 
 class PressureReportFilter(MessageFilter):
     def filter(self, message):
-        return "отчет давление"
+        msg_text = message.text.lower()
+        return msg_text.find("отчет") != -1 and msg_text.find("давлени") != -1
 
 class PressureReportHandler:
     def __init__ (self, db_connection, logger):
